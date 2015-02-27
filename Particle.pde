@@ -5,6 +5,7 @@ class Particle {
   float theta, dtheta;
   float zPos;
   ArrayList<PVector> history;
+  int timer;
 
   Particle() {
     rad = 0;
@@ -12,6 +13,7 @@ class Particle {
     dtheta += 0.3;
     zPos = 0;
     history = new ArrayList<PVector>();
+    timer = 0;
   }
 
 
@@ -33,12 +35,12 @@ void update() {
  
     
     loc = location.get();
-       pushMatrix();
-       translate(width/2,height/2);
-    fill(20,10);
+    pushMatrix();
+    //translate(width/2,height/2);
+    fill(200,50,50,40);
     pushMatrix();
     translate(loc.x, loc.y, loc.z);
-   // sphere(1);
+    sphere(1);
     history.add(loc.get());
     popMatrix();
     popMatrix();
@@ -47,10 +49,10 @@ void update() {
   void drawTail(int counter) {
     beginShape();
     noFill();
-    strokeWeight(2);
-    stroke(40,80);
+    strokeWeight(1);
+    stroke(40,30);
     
-    if (counter > 998){
+    if (counter > 2000){
       history.clear();
     }
     

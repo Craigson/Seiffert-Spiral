@@ -27,29 +27,21 @@ float [] xVals = new float[1000];
 float [] yVals = new float[1000];
 float [] zVals = new float[1000];
 
-PVector point; //vector to store the location on the curve
-int counter = 0; //used to cycle through array of location values
 float theta, dtheta;
-ArrayList<Particle>particles;
-int numParticles = 12;
-float rotateCount = TWO_PI/numParticles;
+
+ParticleSystem ps, ps1;
 
 void setup() {
   size(800, 800, P3D);
   background(220);
+  noCursor();
   translate(width/2, height/2);
   theta = 0;
   dtheta = 0.00001;
 
-  particles = new ArrayList<Particle>();
-  
   cam = new PeasyCam(this, 0, 0, 0, 600); //initialise the peasycam object
   cam.setMinimumDistance(430); //set minimum zoom distance
   cam.setMaximumDistance(1500); //set maximum zoom distance
-
-  for (int i = 0; i < numParticles; i++) {
-    particles.add(new Particle());
-  }
   
   //load x,y and z values from respective text files created by
   //by the python script
@@ -68,38 +60,31 @@ void setup() {
     yVals[i] = Float.parseFloat(yStrings[i]);
     zVals[i] = Float.parseFloat(zStrings[i]);
   }
-
-  point = new PVector(0, 0, 0);
+  
+  ps = new ParticleSystem(24, xVals,yVals,zVals, 3);
   
   camera();
 }
 
 void draw() {
   lights();
-  //rotateZ(theta);
-  background(180);
-  //axis.display();
-  if (counter == 1000) {
-    counter = 0;
-  }
+  background(220);
+  // pushMatrix();
+  // rotateZ(theta);
+  // popMatrix();
+  //because there are only 1000 values, determined by python script
+  //we need to reset the array to zero when it reaches the end
 
-//cycle through the arraylist of particles
-  for (Particle p : particles) {
-     point = new PVector (xVals[counter], yVals[counter], zVals[counter]);
-    pushMatrix();
-    p.display(point);
-    p.drawTail(counter);
-    popMatrix();
-    rotateZ(1);
-  }
+ps.run();
+// pushMatrix();
+// //rotateZ(10);
+// ps1.run();
+// popMatrix();
 
-  counter++;
+
   theta += dtheta;
   println(frameRate);
-  // hint(DISABLE_DEPTH_TEST);
-  // fill(220);
-  // noStroke();
-  // sphere(200);
+  
 }
 
 //pressing the 's' key saves the current image on the screen

@@ -12,7 +12,7 @@ from scipy.special import ellipj
 
 
 r = 200
-a = 0.9
+a = 0.5
 t = 0
 dt = 0.01
 x = []
