@@ -35,13 +35,11 @@ void update() {
     loc = location.get();
        pushMatrix();
        translate(width/2,height/2);
-    fill(255);
+    fill(20,10);
     pushMatrix();
     translate(loc.x, loc.y, loc.z);
-    //sphere(1);
-    if (counter > 2 && counter < 998){
+   // sphere(1);
     history.add(loc.get());
-    }
     popMatrix();
     popMatrix();
   }
@@ -49,7 +47,8 @@ void update() {
   void drawTail(int counter) {
     beginShape();
     noFill();
-    stroke(40,40);
+    strokeWeight(2);
+    stroke(40,80);
     
     if (counter > 998){
       history.clear();
