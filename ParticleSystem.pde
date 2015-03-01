@@ -16,6 +16,8 @@ class ParticleSystem {
     zVals = _z;
     counter = _offset;
     dc = 1;
+    point = new PVector (xVals[0], yVals[0], zVals[0]);
+
 
     for (int i = 0; i < numParticles; i++) {
       particles.add(new Particle());
@@ -24,22 +26,25 @@ class ParticleSystem {
 
 
 
-  void run() {
+  void run(DustCloud cloudy) {
     if (counter < 2 || counter > 998) {
       dc *= -1;
     }
-  point = new PVector (xVals[counter], yVals[counter], zVals[counter]);
+
+    point = new PVector (xVals[counter], yVals[counter], zVals[counter]);
     //cycle through the arraylist of particles
     for (Particle p : particles) {
-    
       pushMatrix();
-      p.display(point);
-      p.drawTail(counter);
+     p.display(point);
+      //p.drawTail(counter);
+
+      for (DustParticle d : cloudy.cloud) {
+        d.applyForce(p.attract(d));
+      }
       popMatrix();
-      rotateZ(1);
+      //rotateZ(1);
     }
-    
+
     counter += dc;
   }
-  
 }

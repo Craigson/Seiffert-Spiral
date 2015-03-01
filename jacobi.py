@@ -12,7 +12,7 @@ from scipy.special import ellipj
 
 
 r = 200
-a = 0.5
+a = 0.9
 t = 0
 dt = 0.01
 x = []
@@ -21,11 +21,11 @@ z = []
 dt = 0.01
 
 #ellipj returns sn,cn,dn,ph
-count = 10000
+count = 5000
 
 print (">>>processing jacobi elliptic functions...")
 #compute the jacobi elliptic functions from time t=0 to t=100
-for i in range(0,1000):
+for i in range(0,5000):
 	jacobi = scipy.special.ellipj(t,(a*a))
 	x.append( repr(r * (jacobi[0])*math.cos(a*t)) ) #calculate x-value at time t
 	y.append( str(r * (jacobi[0])*math.sin(a*t)) )#calculate y-value at time t

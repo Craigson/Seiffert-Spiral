@@ -29,12 +29,12 @@ float [] zVals = new float[1000];
 
 float theta, dtheta;
 
-ParticleSystem ps, ps1;
+ParticleSystem ps,ps1,ps2;
+DustCloud cloud,cloud1,cloud2;
 
 void setup() {
   size(800, 800, P3D);
   background(220);
-  noCursor();
   translate(width/2, height/2);
   theta = 0;
   dtheta = 0.00001;
@@ -42,7 +42,7 @@ void setup() {
   cam = new PeasyCam(this, 0, 0, 0, 600); //initialise the peasycam object
   cam.setMinimumDistance(430); //set minimum zoom distance
   cam.setMaximumDistance(1500); //set maximum zoom distance
-  
+
   //load x,y and z values from respective text files created by
   //by the python script
   String [] rawX = loadStrings(xValString);
@@ -60,31 +60,49 @@ void setup() {
     yVals[i] = Float.parseFloat(yStrings[i]);
     zVals[i] = Float.parseFloat(zStrings[i]);
   }
+
+  ps = new ParticleSystem(1, xVals, yVals, zVals, 3);
+  ps1 = new ParticleSystem(1, xVals, yVals, zVals, 3);
+  ps2 = new ParticleSystem(1, xVals, yVals, zVals, 3);
+  cloud = new DustCloud(3,ps.point);
+  cloud1 = new DustCloud(3,ps.point);
+  cloud2 = new DustCloud(3,ps.point);
   
-  ps = new ParticleSystem(24, xVals,yVals,zVals, 3);
-  
+
   camera();
 }
 
 void draw() {
   lights();
-  background(220);
+  background(20);
+  //blendMode(ADD);
+
+
   // pushMatrix();
-  // rotateZ(theta);
-  // popMatrix();
-  //because there are only 1000 values, determined by python script
-  //we need to reset the array to zero when it reaches the end
 
-ps.run();
-// pushMatrix();
-// //rotateZ(10);
-// ps1.run();
-// popMatrix();
+  cam.rotateY(0.01);
+ // cam.rotateX(0.001);
 
+  ps.run(cloud);
+  cloud.run();
 
-  theta += dtheta;
-  println(frameRate);
+pushMatrix();
+rotateX(45);
+rotateY(45);
+rotateZ(45);
+ps1.run(cloud1);
+cloud1.run();
+popMatrix();
+
+pushMatrix();
+rotateX(90);
+rotateY(90);
+rotateZ(90);
+ps2.run(cloud2);
+cloud2.run();
+popMatrix();
   
+  println(frameRate);
 }
 
 //pressing the 's' key saves the current image on the screen
